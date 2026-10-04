@@ -1,0 +1,41 @@
+name: grp-mailer
+
+# Sends queued GRP emails via Gmail SMTP + app password. Free tiers only:
+# GitHub Actions (2000 min/mo) + Gmail (~500/day). No Firebase Blaze needed.
+#
+# Required repo secrets (Settings > Secrets and variables > Actions):
+#   FIREBASE_SERVICE_ACCOUNT  service-account JSON (Firebase console >
+#                             Project settings > Service accounts >
+#                             Generate new private key)
+#   GMAIL_USER                Gmail address used as the sender
+#   GMAIL_APP_PASSWORD        16-char app password (Google Account >
+#                             Security > 2-Step Verification > App passwords)
+
+on:
+  schedule:
+    - cron: '*/5 * * * *'
+  workflow_dispatch:
+
+concurrency:
+  group: grp-mailer
+  cancel-in-progress: false
+
+jobs:
+  send:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: tools/mailer/package.json
+      - run: npm install --no-audit --no-fund
+        working-directory: tools/mailer
+      - run: node send-queue.js
+        working-directory: tools/mailer
+        env:
+          FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+          GMAIL_USER: ${{ secrets.GMAIL_USER }}
+          GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}

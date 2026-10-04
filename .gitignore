@@ -1,0 +1,61 @@
+# GRP — secrets first: never commit credentials.
+# Real values live in: functions/.env (R2 keys), android/app/google-services.json,
+# GitHub repo secrets (service account, Gmail). Examples (*.example) are safe.
+
+# Firebase / function secrets
+functions/.env
+functions/.env.*
+!functions/.env.example
+.firebaserc.bak
+
+# Firebase app config (re-download from console any time)
+android/app/google-services.json
+ios/Runner/GoogleService-Info.plist
+
+# Service-account keys, certs, keystores
+**/*service-account*.json
+**/serviceAccount*.json
+*.pem
+*.key
+*.p12
+*.jks
+*.keystore
+
+# Dependencies (reinstalled in CI / on clone)
+node_modules/
+**/node_modules/
+
+# Compiled Cloud Functions (built by predeploy hook)
+functions/lib/
+
+# Flutter build output
+build/
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+.pub-cache/
+.pub/
+/build/
+
+# Flutter ephemeral / generated
+**/flutter/ephemeral/
+**/ios/Flutter/Generated.xcconfig
+**/ios/Flutter/flutter_export_environment.sh
+**/android/app/src/main/java/io/flutter/plugins/
+ios/Flutter/AppFrameworkInfo.plist
+ios/Flutter/Flutter.podspec
+.flutter-plugins-dependencies
+
+# IDE / OS
+.idea/
+.vscode/
+*.iml
+*.ipr
+*.iws
+.DS_Store
+Thumbs.db
+*.log
+
+# Misc
+.output/

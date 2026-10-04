@@ -1,0 +1,16 @@
+{
+  "name": "grp-mailer",
+  "description": "Polls Firestore mailQueue and sends via Gmail SMTP + app password. Runs in GitHub Actions.",
+  "private": true,
+  "type": "commonjs",
+  "scripts": {
+    "send": "node send-queue.js"
+  },
+  "dependencies": {
+    "firebase-admin": "^12.7.0",
+    "nodemailer": "^6.9.16"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
